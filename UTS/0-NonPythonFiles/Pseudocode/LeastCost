@@ -1,0 +1,31 @@
+algorithm LeastCost is
+    input:
+        cost_matrix [[]],
+        supply[]
+        demand[]
+    output:
+        distribution_matrix[[]]
+
+    /* Priority Queue contain tuple:
+       (cost[i][j], (i, j))
+
+       Priority Queue sorted based on least cost,
+       then the least row and column num
+    */
+    pq := get_priority_queue(cost_matrix)
+
+    while pq is not empty:
+        _, (i, j) := pq.get() /* Pop PQ */
+
+        if cost[i][j] can taken:
+            allocated := min(supply[i], demand[j])
+            distribution_matrix[i][j] := allocated
+
+            supply[i] := supply[i] - allocated
+            demand[j] := demand[j] - allocated
+
+            cancel_table(i, j) /* Mark the cell that can't be used */
+
+    return distribution_matrix
+
+

@@ -1,0 +1,44 @@
+algorithm NorthWestCorner is
+    input:
+        cost_matrix [[]],
+        supply[]
+        demand[]
+    output:
+        distribution_matrix[[]]
+
+    n := 0
+    w := 0
+
+    row_num := length of supply
+    col_num := length of demand
+
+    while n < row_num and w < col_num:
+        allocated := min(supply[n], demand[w])
+        distribution_matrix[n][w] := allocated
+
+        supply[n] := supply[n] - allocated
+        demand[w] := demand[w] - allocated
+
+        n, w := update_nw(n, w)
+
+    return distribution_matrix
+
+algorithm update_nw is
+    input:
+        supply [],
+        demand [],
+        n int,
+        w int
+    output:
+        new_n, new_w
+
+    new_n := n
+    new_w := w
+
+    if supply[n] == 0:
+        new_n := new_n + 1
+    if demand[n] == 0:
+        new_w := new_w + 1
+
+    return new_n, new_w
+

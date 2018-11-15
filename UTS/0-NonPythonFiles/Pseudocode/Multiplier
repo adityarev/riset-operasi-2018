@@ -1,0 +1,44 @@
+algorithm Multiplier is
+    input:
+        cost_matrix [[]],
+        distribution_matrix[[]],
+        u[],
+        v[]
+    output:
+        distribution_matrix[[]]
+
+    while True:
+        update_uv()
+
+        /*
+            Priority Queue is tuple:
+            (value, (i, j))
+        */
+        nbv := __nbv_priority_queue()
+        nbv_max := nbv.get() /* Get top value in queue */
+
+        max_val, (i, j) = nbv_max
+
+        if optimum:
+            break
+
+        point = i, j
+        d_point = diagonal_point(point)
+
+        /* Looking for rectangle */
+        while nbv is not empty:
+            /* Unpack diagonal point */
+            d_x, d_y = d_point
+
+            /* Check if d_x and d_y out of range */
+            if d_x, d_y no longer suit:
+                break
+
+            /* Get next queue */
+            _, point = nbv.get()
+            d_point = diagonal_point(point)
+
+        /* Modify distribution with rectangle point found */
+        modify_distribution(point)
+
+    return distribution_matrix

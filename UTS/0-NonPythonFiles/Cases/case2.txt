@@ -1,0 +1,13 @@
+    source = ['1', '2', '3']
+    destination = ['A', 'B', 'C', 'D']
+
+    cost = [[3, 1, 7, 4],
+            [2, 6, 5, 9],
+            [8, 3, 3, 2]]
+    supply = [300, 400, 500]
+    demand = [250, 350, 400, 200]
+
+ObjVal:
+    NorthwestCorner = 440
+    LeastCost = 2850
+    VogelAproximation Method = 2850

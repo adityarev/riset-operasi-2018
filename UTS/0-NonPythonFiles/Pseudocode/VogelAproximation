@@ -1,0 +1,35 @@
+algorithm VogelAproximation is
+    input:
+        cost_matrix [[]],
+        supply[]
+        demand[]
+    output:
+        distribution_matrix[[]]
+
+    while not all_transported(supply):
+        /*
+            Generate penalty for each iteration
+            tuple type : (value, (is_col, ind))
+
+            is_col -> type of difference (row xor col)
+            ind -> index at type
+        */
+        penalty := new_penalty()
+        _, (is_col, ind) = penalty.get()
+
+        /*
+            Get exact position of minimum index
+            in i, j representation
+        */
+        i, j := get_index(is_col, ind)
+
+        allocated := min(supply[i], demand[j])
+        distribution_matrix[i][j] := allocated
+
+        supply[i] := supply[i] - allocated
+        demand[j] := demand[j] - allocated
+
+        cancel_table(i, j) /* Mark the cell that can't be used */
+
+    return distribution_matrix
+
