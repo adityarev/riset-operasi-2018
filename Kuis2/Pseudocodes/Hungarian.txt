@@ -1,0 +1,196 @@
+/* As global variable */
+cost [][] = {...}  // Initiated
+matrix [][]
+lookup [][]
+result []
+
+/* Main Code */
+Hungarian Algorithm is
+	output:
+		getCostTotal()
+	
+	
+	initMatrix()
+	rowOperation()
+	colOperation()
+	
+	initLookup()
+	experimentalAssignment()
+
+	
+/* Matrix Initialization */
+initMatrix is
+	matrix := cost
+
+
+/* Row Operation */
+rowOperation is
+	for i in range 0..(N-1):
+		rowSubstract(i)
+
+rowSubstract is
+	input:
+		i int
+	
+	min_val := minimumValueAtRow(i)
+	
+	for j in range 0..(N-1):
+		matrix[i][j] := matrix[i][j] - min_val
+
+
+/* Column Operation */
+colOperation is
+	for j in range 0..(N-1):
+		colSubstract(j)
+
+colSubstract is
+	input:
+		j int
+	
+	min_val := minimumValueAtCol(j)
+	
+	for i in range 0..(N-1):
+		matrix[i][j] := matrix[i][j] - min_val
+
+
+/* Lookup Initialization */
+initLookup is
+	lookup := matrix
+
+	
+/* Experimental Assignment */
+experimentalAssignment is
+	initResult()
+	createRowResult()
+	createColResult()
+	
+	sort(result)
+
+
+/* Result Initialization */
+initResult is
+	result := []
+
+
+/* Create Result With Row Scan */
+createRowResult is
+	for i in range 0..(N-1):
+		createResultAtRow(i)
+
+createResultAtRow is
+	input:
+		i int
+	
+	cell := choosenCellAtRow(i)
+	
+	value_counter, cell_pos = cell
+	
+	value, counter = value_counter
+	cell_i, cell_j = cell_pos
+	
+	if value != INT_MAX and counter == 1:
+		result := result.concat([(cell_i, cell_j)])
+		updateLookupAt(cell_i, cell_j)
+
+choosenCellAtRow is
+	input:
+		i int
+	output:
+		((value, counter), (cell_i, cell_j))
+	
+	value := INT_MAX
+	counter := 1
+	
+	cell_i := -1
+	cell_j := -1
+	
+	for j in range 0..(N-1):
+		if lookup[i][j] <= value:
+			value = lookup[i][j]
+			counter = 1
+			
+			cell_i = i
+			cell_j = j
+		else:
+			counter := counter + 1
+
+				
+/* Create Result With Column Scan */
+createColResult is
+	for j in range 0..(N-1):
+		createResultAtCol(j)
+
+createResultAtCol is
+	input:
+		j int
+	
+	cell := choosenCellAtCol(j)
+	
+	value_counter, cell_pos = cell
+	
+	value, counter = value_counter
+	cell_i, cell_j = cell_pos
+	
+	if value != INT_MAX:
+		result := result.concat([(cell_i, cell_j)])
+		updateLookupAt(cell_i, cell_j)
+
+choosenCellAtCol is
+	input:
+		j int
+	output:
+		((value, counter), (cell_i, cell_j))
+	
+	value := INT_MAX
+	counter := 1
+	
+	cell_i := -1
+	cell_j := -1
+	
+	for i in range 0..(N-1):
+		if lookup[i][j] <= value:
+			value = lookup[i][j]
+			counter = 1
+			
+			cell_i = i
+			cell_j = j
+		else:
+			counter := counter + 1
+				
+
+/* Lookup Modifier */
+updateLookupAt is
+	input:
+		i int
+		j int
+	
+	updateLookupRow(i)
+	updateLookupCol(j)
+
+updateLookupRow is
+	input:
+		i int
+	
+	for j in range 0..(N-1):
+		lookup[i][j] := INT_MAX;
+	
+updateLookupCol is
+	input:
+		j int
+	
+	for i in range 0..(N-1):
+		lookup[i][j] := INT_MAX;
+
+
+/* Total Cost Counter */
+getCostTotal is
+	output:
+		cost_total int
+
+	cost_total := 0
+	
+	for i in range 0..(N-1):
+		index_i, index_j = result[i]
+		
+		cost_total := cost_total + cost[index_i][index_j]
+

@@ -1,0 +1,68 @@
+/* As global variable */
+adj [][]
+dist []
+
+/* Reset Global Values */
+reset is
+	initV()
+	initE()
+
+initV is
+	V int
+	read(V)
+	
+	adj := [[],...,[]]			   // length of adj equal to V
+	dist := [INT_MAX,...,INT_MAX]  // length of dist equal to V
+	
+initE is
+	E int
+	read(E)
+	
+	for i in range 0..(E-1):
+		a int
+		b int
+		dist int
+		
+		read(a)
+		read(b)
+		read(dist)
+		
+		adj[a] := adj[a].concat([(dist, b)]
+
+
+/* Shortest Path Finder */
+DjikstraAlgorithm is
+	input:
+		from int
+		to int
+	output:
+		(-1, "Not Found")
+	
+	reset()
+	
+	pq := priority_queue()  // Sorting value ascending queue
+	
+	dist[from] := 0
+	path := toString(from)
+	
+	pq.push((dist[from], (from, path)))
+	while pq is not empty:
+		curr := pq.top()  // Get top element in queue
+		pq.pop()
+		
+		ftem, stemp := curr
+		pos, path := stemp
+		
+		if pos == to:
+			return (dist[to], path)
+		
+		adj_size := len(adj)
+		for i in range 0..(adj_size-1):
+			cost, next := adj[pos][i]
+			
+			if (cost + ftem) < dist[next]:
+				dist[next] := cost + ftem
+				curr_path := path + " -> " + toString(next)
+				
+				pq.push((dist[next], (next, curr_path)))
+
