@@ -229,7 +229,6 @@ protected:
 					
 					cell_i = i;
 					cell_j = j;
-					
 				} else {
 					counter++;
 				}

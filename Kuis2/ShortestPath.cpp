@@ -138,8 +138,8 @@ public:
 				return make_pair(dist[to], path);
 			}
 			
-			int adjSize = adj[pos].size();
-			for (int i = 0; i < adjSize; i++) {
+			int adj_size = adj[pos].size();
+			for (int i = 0; i < adj_size; i++) {
 				int cost = adj[pos][i].first;
 				int next = adj[pos][i].second;
 				
