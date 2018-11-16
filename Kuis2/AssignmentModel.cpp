@@ -398,6 +398,13 @@ public:
 		printf("\nCost Total: %d unit%c\n", cost_total
 										  , (cost_total > 1 ? 's' : '\0'));
 	}
+	
+	~Task() {
+		cost.clear();
+		matrix.clear();
+		lookup.clear();
+		result.clear();
+	}
 };
 
 
